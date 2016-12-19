@@ -1,18 +1,8 @@
-import Game from 'game';
-import Player from 'player';
-import Board from 'board';
-
+import Backbone from 'backbone';
 
 const Application = Backbone.Model.extend({
-	defaults: {
-  games: [],
-  players: [],
-  currentGame: ''
-	},
-
-	initialize: function() {
-		console.log('new Application created');
-	},
 
 });
 
+
+export default Application;
