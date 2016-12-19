@@ -1,22 +1,22 @@
 import Backbone from 'backbone';
-// //Board
+
 
 const Board = Backbone.Model.extend( {
 
 	defaults: 
-		{board: [[null, null, null],
-									[null, null, null],
-									[null, null, null]]
+		{board: [["-", "-", "-"],
+									["-", "-", "-"],
+									["-", "-", "-"]]
 		}, //END defaults
 
 	initialize: function() {
 		console.log('hi there');
-
+		console.log(this.board);
 	}, //END initialize
 
 	setMarkAtPosition: function(row, column, mark) {
 	
-		if (row > 2 || row < 0 || column > 2 || column < 0 || this.board[row][column] != null ) {
+		if (row > 2 || row < 0 || column > 2 || column < 0 || this.board[row][column] != "-" ) {
 			throw "Try Again!";
 		} else {
 			this.board[row][column] = mark;
@@ -25,18 +25,6 @@ const Board = Backbone.Model.extend( {
 	}//END setMarkAtPosition
 
 }); //END Board
-
-// Board.prototype.getMarkAtPosition = function(row, column) {
-//   if (row > 2 || row < 0 || column > 2 || column < 0) {
-//     throw "Spot Does Not Exist!";
-//   } else {
-// 	   return this.board[row][column];
-//   }
-// };
-
-
-
-
 
 
 export default Board;
