@@ -7,6 +7,8 @@ const BoardView = Backbone.View.extend({
 
 	initialize: function(options) {
 		this.template = options.template;
+		// if my contact changes, we re-render
+		this.listenTo(this.model, 'change', this.render );
 	}, //END initialize
 
 	render: function() {
