@@ -1,26 +1,32 @@
+import Backbone from 'backbone';
 
+const Player = Backbone.Model.extend({
+	defaults: {
+		name: '',
+		mark: '',
+		status: '',
+		currentGame: '',
+		row1: 0,
+		row2: 0,
+		row3: 0,
+		col1: 0,
+		col2: 0,
+		col3: 0,
+		diagonalL2R: 0,
+		diagonalR2L: 0
+	}, // END defaults
 
-// PLAYER METHODS
+	initialize: function() {
+		console.log('new Player created');
+	}
 
-var Player = function() {
-	this.name = '';
-	this.mark = '';
-	this.status = 'inactive';
-	this.row1 = 0;
-	this.row2 = 0;
-	this.row3 = 0;
-	this.col1 = 0;
-	this.col2 = 0;
-	this.col3 = 0;
-	this.diagonalL2R = 0;
-	this.diagonalR2L = 0;
-};
+});   //END Player 
 
-Player.prototype.getName = function() {
-	return this.name;
-};
+// Player.prototype.getName = function() {
+// 	return this.name;
+// };
 
-Player.prototype.setName = function(name) {
+var setName = function(name) {
 	if (name == "") {
 		throw 42
 	} else {
@@ -28,21 +34,21 @@ Player.prototype.setName = function(name) {
 	};
 };
 
-Player.prototype.setMark = function( mark ) {
-	if (mark != "X" && mark != "O" && mark != "x" && mark != "o") {
-		throw 42
-	} else {
-		this.mark = mark.toUpperCase();
-	};
-};
+// Player.prototype.setMark = function( mark ) {
+// 	if (mark != "X" && mark != "O" && mark != "x" && mark != "o") {
+// 		throw 42
+// 	} else {
+// 		this.mark = mark.toUpperCase();
+// 	};
+// };
 
-Player.prototype.getMark = function() {
-	return this.mark;
-};
+// Player.prototype.getMark = function() {
+// 	return this.mark;
+// };
 
-Player.prototype.setCurrentGame = function(game) {
-	this.currentGame = game;
-};
+// Player.prototype.setCurrentGame = function(game) {
+// 	this.currentGame = game;
+// };
 
 
 //can't do until board is made
@@ -109,10 +115,10 @@ Player.prototype.getPoints = function( row, col ) {
 
 
 
-// shows whether a player is active and can choose a square or not
+// shows whether a player won or last its last game
 
 Player.prototype.setStatus = function(status) {
-	if (status.toLowerCase() != "active" && status.toLowerCase() != "inactive") {
+	if (status.toLowerCase() != "won" && status.toLowerCase() != "lost") {
 		throw 42
 	} else {
 	this.status = status.toLowerCase();

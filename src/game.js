@@ -7,18 +7,14 @@ var Game = function() {
 };
 
 Game.prototype.checkWinStatus = function() {
-	//will involve logic and Board and choosing Squares etc etc
-	if (this.board.getStatus() == "X" || this.board.getStatus() =="O") {
-		this.winStatus = this.board.getStatus();
-		return ((this.winStatus == this.player1.getMark() ? this.player1.name : this.player2.name) + " " + "won!");
-	} else if (this.board.playCounter == 9) {
-		this.winStatus = "draw";
-	};
-
 	if (this.currentPlayer.checkPoints == true) {
 		this.winStatus = this.currentPlayer.mark;
-	}
-	return this.winStatus;
+		this.currentPlayer.setStatus('won');
+		return this.currentPlayer.mark + "(" + this.winStatus + ")" + " won!";
+	} else if (this.board.playCounter == 9) {
+		this.winStatus = "draw";
+		return this.winStatus;
+	};
 }; // END checkWinStatus
 
 Game.prototype.getCurrentPlayer = function() {

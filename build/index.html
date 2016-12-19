@@ -5,6 +5,31 @@
     <meta charset="utf-8">
   </head>
   <body>
+  	<header>
+  		<h1>Tic Tac Toe</h1>
+  	</header>
+  	<nav>
+  		<ul>
+  			<li class="new-game button">New Game</li>
+  		</ul>
+  	</nav>
+  	
+  	<main class='board'>
+  	</main>
+  	
+  	<section class='player-list'>
+  	</section>
+
+  	<script type='text/template' id='player-list-template'>
+  		<h4><%- name %></h4>
+  		<!-- <h4><%- record %></h4> -->
+  	</script>
+
+  	<script type='text/template' id='board-template'>
+  		<p><%- row0col0 %></p>
+  		<p><%- row0col1 %></p>
+  	</script>
+
     <script src="/app.bundle.js" charset="utf-8"></script>
   </body>
 </html>
