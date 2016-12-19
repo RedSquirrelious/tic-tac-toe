@@ -8,31 +8,27 @@ import Player from 'player_model';
 const Game = Backbone.Model.extend({
 	
 	defaults: {
-
-		date: new Date.toLocaleTimeString('en-US', {timeZone: zone, timeZoneName: 'short'},
 		winStatus: "in progress",
-		board: new Board(),
 		player1: '',
 		player2: '',
 		currentPlayer: '',
-		playCounter: 0,
+		playCounter: 0
+		board: [["-", "-", "-"],
+									["-", "-", "-"],
+									["-", "-", "-"]],
 	}, // END defaults
 
+
+//makes a new game
 	initialize: function(options) {
+		this.date = new Date.toLocaleTimeString('en-US', {timeZone: zone, timeZoneName: 'short'});
+		this.board = new Board();
 
-  this.player1 = new Player();
-  this.player1.setName(options.name1);
-  this.player1.setMark('X')
-
-  this.player2 = new Player();
-  this.player2.setName(options.name2);
-  this.player2.setMark('O')
-  
-  this.currentPlayer = player1;
-
-  return this;
+	  return this;
 	}, // END initialize
 
+
+//checks to see if someone won the game (or if it is in-progress or a draw)
 	checkWinStatus: function() {
 		if (this.currentPlayer.checkPoints == true) {
 			this.winStatus = this.currentPlayer.mark;
@@ -46,6 +42,23 @@ const Game = Backbone.Model.extend({
 		}; // END if/else conditional
 	}, // END checkWinStatus
 
+
+//sets the players of the game and calls in the current player
+	setPlayers: function(options) {
+
+		this.player1 = options.player1;
+		// this.player1.setName(options.name1);
+	  this.player1.setMark('X');
+
+	  this.player2 = options.player2
+	  // this.player2.setName(options.name2);
+	  this.player2.setMark('O');
+	  
+	  this.currentPlayer = this.player1;
+	}, //END setPlayers
+
+
+// sets the game's currentPlayer attribute
 	setCurrentPlayer: function( player ) {
 		if (player == "") {
 			throw 42
