@@ -1,27 +1,29 @@
 import $ from 'jquery';
-import _ from 'underscore';
 import Backbone from 'backbone';
-import Contact from 'app/models/contact';
+import _ from 'underscore';
+
+import Board from 'board_model';
+import Player from 'player_model';
 
 const GameView = Backbone.View.extend({
 
-	initialize: function(options) {
-		this.template = options.template;
+	initialize: function() {
+		// this.template = options.template;
+
+		this.contactTemplate = _.template($('#board-template').html());
 	},
 
 	render: function() {
-// this sets what we want to see
-	  var html = this.template({name: this.currentPlayer.attributes.name});
-	  // var html = this.template({name: this.currentPlayer.name});
-	  this.$el.html(html);
+// // loop through the array of contact cards
+		this.board.forEach(function(square) {
+			//show the card
 
-	// this helps re-bind events since the html is all new
-	  this.delegateEvents();
+			square.render();
 
+			this.contactTemplate.append(card.$el);
 	    // Enable chained calls
 	  return this;
   }, //render end
-
 
 
 	takeTurns: function(row, col) {
