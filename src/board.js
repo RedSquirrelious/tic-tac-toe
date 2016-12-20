@@ -10,6 +10,7 @@ var Board = function() {
 };
 
 Board.prototype.setMarkAtPosition = function(row, column, mark) {
+	
 	if (row > 2 || row < 0 || column > 2 || column < 0 || this.board[row][column] != null ) {
 		throw "Try Again!";
 	} else {
@@ -104,6 +105,15 @@ Board.prototype.getStatus = function(){
     return 'O';
   }
 
+};
+
+Board.prototype.drawBoard = function() {
+	console.log(this.board[0]);
+	console.log("");
+	console.log(this.board[1]);
+	console.log("")
+	console.log(this.board[2]);
+	console.log("");
 };
 
 
