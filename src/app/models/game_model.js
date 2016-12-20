@@ -16,7 +16,7 @@ const Game = Backbone.Model.extend({
 		playCounter: 0
 	}, // END defaults
 
-	events: {'click', }
+	// events: {'click', }
 
 //makes a new game
 	initialize: function(options) {
