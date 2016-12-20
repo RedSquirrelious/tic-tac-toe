@@ -18,8 +18,10 @@ const Player = Backbone.Model.extend({
 
 
 //gives us a new player
-	initialize: function() {
-		console.log('new Player created');
+	initialize: function(options) {
+		this.set("name", options.name)
+		this.set("row1", 0)
+		console.log('new Player created: ' + this.get("name"));
 	}, //END initialize
 
 
@@ -31,6 +33,11 @@ const Player = Backbone.Model.extend({
 			this.name = name;
 		};
 	}, //END setName
+
+//sets the player's mark
+	setMark: function(mark) {
+		this.set("mark", mark);
+	}, //END setMark
 
 
 //

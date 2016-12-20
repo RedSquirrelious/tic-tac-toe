@@ -2,8 +2,9 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import _ from 'underscore';
 
-import Board from 'board_model';
-import Player from 'player_model';
+
+import Board from 'app/models/board_model';
+import Player from 'app/models/player_model';
 
 const Game = Backbone.Model.extend({
 	
@@ -13,17 +14,19 @@ const Game = Backbone.Model.extend({
 		player2: '',
 		currentPlayer: '',
 		playCounter: 0
-		board: [["-", "-", "-"],
-									["-", "-", "-"],
-									["-", "-", "-"]],
 	}, // END defaults
 
+	events: {'click', }
 
 //makes a new game
 	initialize: function(options) {
-		this.date = new Date.toLocaleTimeString('en-US', {timeZone: zone, timeZoneName: 'short'});
-		this.board = new Board();
+		// this.set("date", new Date.toLocaleTimeString('en-US', {timeZone: zone, timeZoneName: 'short'}));
+		this.set("board", [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]]);
 
+		this.set("player1", options.player1);
+		this.set("player2", options.player2);
+
+		console.log('new game! ' + this.get("player1").attributes.name);
 	  return this;
 	}, // END initialize
 
@@ -31,14 +34,14 @@ const Game = Backbone.Model.extend({
 //checks to see if someone won the game (or if it is in-progress or a draw)
 	checkWinStatus: function() {
 		if (this.currentPlayer.checkPoints == true) {
-			this.winStatus = this.currentPlayer.mark;
-			this.currentPlayer.setStatus('won');
+			this.set("winStatus", this.currentPlayer.mark);
+			this.get("currentPlayer").setStatus('won');
 
-			return this.currentPlayer.mark + "(" + this.winStatus + ")" + " won!";
+			return this.get("currentPlayer").mark + "(" + this.get("winStatus") + ")" + " won!";
 
 		} else if (this.board.playCounter == 9) {
-			this.winStatus = "draw";
-			return this.winStatus;
+			this.set("winStatus", "draw");
+			return this.get("winStatus");
 		}; // END if/else conditional
 	}, // END checkWinStatus
 
@@ -46,15 +49,15 @@ const Game = Backbone.Model.extend({
 //sets the players of the game and calls in the current player
 	setPlayers: function(options) {
 
-		this.player1 = options.player1;
+		this.set("player1", options.player1);
 		// this.player1.setName(options.name1);
 	  this.player1.setMark('X');
 
-	  this.player2 = options.player2
+	  this.set("player2", options.player2);
 	  // this.player2.setName(options.name2);
 	  this.player2.setMark('O');
 	  
-	  this.currentPlayer = this.player1;
+	  this.set("currentPlayer", this.player1);
 	}, //END setPlayers
 
 
@@ -63,7 +66,7 @@ const Game = Backbone.Model.extend({
 		if (player == "") {
 			throw 42
 		} else {
-			this.currentPlayer = player;
+			this.set("currentPlayer", player);
 		};
 
 	}, //END setCurrentPlayer
@@ -74,9 +77,4 @@ const Game = Backbone.Model.extend({
 export default Game;
 
 
-
-
-
-
-export default Application;
 

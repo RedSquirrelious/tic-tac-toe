@@ -3,31 +3,55 @@
   <head>
     <title>Tic-Tac-Toe</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
-  	<header>
-  		<h1>Tic Tac Toe</h1>
-  	</header>
-  	<nav>
-  		<ul>
-  			<li class="new-game button">New Game</li>
-  		</ul>
-  	</nav>
-  	
-  	<main class='board'>
-  	</main>
-  	
-  	<section class='player-list'>
-  	</section>
 
+	  	<header>
+	  		<h1>Tic Tac Toe</h1>
+	  	</header>
+	  	<nav>
+	  		<ul>
+	  			<li class="new-game button">New Game</li>
+	  		</ul>
+	  	</nav>
+		<main>
+	  	<section class="game">
+	  		<h2>Game</h2>
+	  		<div id='game'>
+	  		</div>
+	  	</section>
+
+	  	<section class=players>
+	  		<h2>Players</h2>
+	  		<div id='player-list'>
+	  		</div>
+	  	</section>
+
+	  	</main>
+<!-- UNDERSCORE TEMPLATES -->
   	<script type='text/template' id='player-list-template'>
   		<h4><%- name %></h4>
-  		<!-- <h4><%- record %></h4> -->
+
   	</script>
 
   	<script type='text/template' id='board-template'>
-  		<p><%- row0col0 %></p>
-  		<p><%- row0col1 %></p>
+  	<section class="row0">
+	  	<p><%- row0col0 %></p>
+	  	<p><%- row0col1 %></p>
+	  	<p><%- row0col2 %></p>
+  	</section>
+  	<section class="row1">
+	  	<p><%- row1col0 %> </p>
+	  	<p><%- row1col1 %></p>
+	  	<p><%- row1col2 %></p>
+  	</section>
+  	<section class="row2">
+	  	<p><%- row2col0 %></p>
+	  	<p> <%- row2col1 %></p>
+	  	<p> <%- row2col2 %></p>
+  	</section>
   	</script>
 
     <script src="/app.bundle.js" charset="utf-8"></script>
