@@ -14,13 +14,14 @@ const GameView = Backbone.View.extend({
 		this.listenTo(this.model, 'change', this.render );
 		
 
+
 		this.currentGame = options.currentGame;
 		console.log('the spot where "' + this.currentGame.attributes.board[0][0] + '" was the mark');
 
 	},
 
 	events: { 
-		'click': 'markSquare'
+		// 'click': 'markSquare'
 	},
 
 	render: function() {
@@ -36,16 +37,11 @@ const GameView = Backbone.View.extend({
 			this.el.append("\n");
 		}; //END i
 
-		var html = $('#row0col0 p');
 
-	
-		// this.markSquare(html, this.cartoonCharacterImages.elmer);
-
-		this.markSquare(html, this.squirrelImages.grass);
-
+		this.markSquare(this, this.squirrelImages.rocks);
 
 // // this helps re-bind events since the html is all new
-  this.delegateEvents();
+  	this.delegateEvents();
 
 // Enable chained calls
 	 return this;
@@ -73,9 +69,21 @@ const GameView = Backbone.View.extend({
   	roadrunner: "https://upload.wikimedia.org/wikipedia/en/e/ee/Roadrunner_looney_tunes.png"
   },
 
+
   markSquare: function(squareElement, character) {
-  	squareElement.append('<section class="cartoon"><img src=' + character + '></section>');
+ 		$('.row-container').children().children().on('click', function() { 
+  				var squareElement = '#' + this.id + ' p'; 
+
+			$(squareElement).append('<section class="cartoon"><img src=' + character + '></section>');
+		});
   },
+
+ //  	chooseSquare: function(row, col) {
+	// 	this.currentGame.board.setMarkAtPosition(row, col, this.mark);
+	// 	var points = this.getPoints( row, col );
+	// 	this.setPoints();
+	// }, //END chooseSquare
+
 
 	takeTurns: function(row, col) {
 		this.currentPlayer.chooseSquare(row, col);
