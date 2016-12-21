@@ -20,7 +20,7 @@ const GameView = Backbone.View.extend({
 	},
 
 	events: { 
-		'click': 'chooseCartoonSquares'
+		'click': 'markSquare'
 	},
 
 	render: function() {
@@ -39,11 +39,9 @@ const GameView = Backbone.View.extend({
 		var html = $('#row0col0 p');
 
 	
+		// this.markSquare(html, this.cartoonCharacterImages.elmer);
 
-		this.chooseCartoonSquares(html, this.cartoonCharacterImages.elmer);
-
-		// html.append("<img src = https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Bugs_Bunny.svg/360px-Bugs_Bunny.svg.png>");
-
+		this.markSquare(html, this.squirrelImages.grass);
 
 
 // // this helps re-bind events since the html is all new
@@ -52,6 +50,11 @@ const GameView = Backbone.View.extend({
 // Enable chained calls
 	 return this;
   }, //render end
+
+  squirrelImages: {
+  	grass: "images/squirrel-grass.jpg",
+  	rocks: "images/squirrel-rocks.jpg"
+  },
 
   cartoonCharacterImages: {
   	bugs: "https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Bugs_Bunny.svg/360px-Bugs_Bunny.svg.png",
@@ -70,7 +73,7 @@ const GameView = Backbone.View.extend({
   	roadrunner: "https://upload.wikimedia.org/wikipedia/en/e/ee/Roadrunner_looney_tunes.png"
   },
 
-  chooseCartoonSquares: function(squareElement, character) {
+  markSquare: function(squareElement, character) {
   	squareElement.append('<section class="cartoon"><img src=' + character + '></section>');
   },
 
@@ -79,6 +82,7 @@ const GameView = Backbone.View.extend({
 
 		if (this.board.playCounter >= 5) {
 			// console.log(this.checkWinStatus());
+			$('#board h2').append('<h4>' + this.checkWinStatus + '</h4>');
 
 		};
 
