@@ -1,10 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <title>Tic-Tac-Toe</title>
     <meta charset="utf-8">
+
     <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/app.css">
+    <!-- <link rel="sheet" type="text/css" href="css/reset.css">  -->
+
   </head>
   <body>
 
@@ -18,45 +22,72 @@
 	  	</nav>
 		<main>
 	  	<section id="game">
-	  		<h2>Game</h2>
+
 		  	<div id="board">
-		  		<div id='row0'>
-			  		<div id='row0col0'>
-			  			<p> </p>
-			  		</div>
-			  		<div id='row0col1'>
-			  			<p> </p>
-			  		</div>
-			  		<div id='row0col2'>
-			  			 <p> </p>
-			  		</div>
-		  		</div>
+	  			<h2>Game</h2>
+		  		<section class="row-container">
+
+			  		<div id='row0'>
+
+				  		<section id='row0col0'>
+				  			<p> </p>
+				  		</section>
+
+				  		<section id='row0col1'>
+				  			<p> </p>
+				  		</section>
+
+				  		<section id='row0col2'>
+				  			 <p> </p>
+				  		</section>
+
+			  		</div>  <!--   END ROW2 	 -->	
+
+				</section>  <!-- END ROW-CONTAINER -->
+
+				<section class="row-container">
 
 		  		<div id='row1'>
-		  			<div id='row1col0'>
-		  				<p> </p>
-		  			</div>
-			  		<div id='row1col1'>
-			  			<p> </p>
-			  		</div>
-			  		<div id='row1col2'>
-			  			 <p> </p>
-			  		</div>
-		  		</div>
 
-		  		<div id='row2'>
-		  			 <div id='row2col0'>
-		  			<p> </p>
-			  		</div>
-			  		<div id='row2col1'>
+		  			<section id='row1col0'>
+		  				<p> </p>
+		  			</section>
+
+			  		<section id='row1col1'>
 			  			<p> </p>
-			  		</div>
-			  		<div id='row2col2'>
+			  		</section>
+
+			  		<section id='row1col2'>
 			  			 <p> </p>
-			  		</div>
-		  		</div>
-		  	</div>
-	  	</section>
+			  		</section>
+
+		  		</div>  <!--   END ROW1 	 -->	
+
+				</section>  <!-- END ROW-CONTAINER -->
+
+				<section class="row-container">
+
+			  		<div id='row2'>
+
+			  			<section id='row2col0'>
+			  				<p> </p>
+				  		</section>
+
+				  		<section id='row2col1'>
+				  			<p> </p>
+				  		</section>
+
+				  		<section id='row2col2'>
+				  			 <p> </p>
+				  		</section>
+
+			  		</div>  <!--   END ROW2 	 -->
+
+					</section>  <!-- END ROW-CONTAINER -->
+
+				</div>  <!--   END BOARD 	 -->
+
+	  	</section> 				<!-- END GAME -->
 
 	  	<section id=players>
 	  		<h2>Players</h2>
