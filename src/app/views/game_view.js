@@ -12,10 +12,15 @@ const GameView = Backbone.View.extend({
 		this.template = options.template;
 		// if my game changes, we re-render
 		this.listenTo(this.model, 'change', this.render );
+		
 
 		this.currentGame = options.currentGame;
 		console.log('the spot where "' + this.currentGame.attributes.board[0][0] + '" was the mark');
 
+	},
+
+	events: { 
+		'click': 'chooseCartoonSquares'
 	},
 
 	render: function() {
@@ -31,10 +36,15 @@ const GameView = Backbone.View.extend({
 			this.el.append("\n");
 		}; //END i
 
+		var html = $('#row0col0 p');
 
-		var html = this.sortSquares();
-		console.log(html);
-		// this.el.html(html);
+	
+
+		this.chooseCartoonSquares(html, this.cartoonCharacterImages.elmer);
+
+		// html.append("<img src = https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Bugs_Bunny.svg/360px-Bugs_Bunny.svg.png>");
+
+
 
 // // this helps re-bind events since the html is all new
   this.delegateEvents();
@@ -43,8 +53,25 @@ const GameView = Backbone.View.extend({
 	 return this;
   }, //render end
 
-  sortSquares: function() {
+  cartoonCharacterImages: {
+  	bugs: "https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Bugs_Bunny.svg/360px-Bugs_Bunny.svg.png",
+  	elmer: "https://upload.wikimedia.org/wikipedia/en/6/66/ElmerFudd.gif",
 
+  	sam: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Yosemite_Sam.svg/360px-Yosemite_Sam.svg.png",
+
+  	daffy: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Daffy_Duck.svg/360px-Daffy_Duck.svg.png",
+
+  	porky: "https://upload.wikimedia.org/wikipedia/en/thumb/8/88/Porky_Pig.svg/300px-Porky_Pig.svg.png",
+
+  	marvin: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Marvin_the_Martian.svg/334px-Marvin_the_Martian.svg.png",
+
+  	coyote: "https://upload.wikimedia.org/wikipedia/en/thumb/3/3c/Wile_E._Coyote.svg/220px-Wile_E._Coyote.svg.png",
+
+  	roadrunner: "https://upload.wikimedia.org/wikipedia/en/e/ee/Roadrunner_looney_tunes.png"
+  },
+
+  chooseCartoonSquares: function(squareElement, character) {
+  	squareElement.append('<section class="cartoon"><img src=' + character + '></section>');
   },
 
 	takeTurns: function(row, col) {
