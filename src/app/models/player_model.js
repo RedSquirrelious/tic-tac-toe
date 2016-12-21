@@ -84,28 +84,54 @@ const Player = Backbone.Model.extend({
 		return false;
 	}, //END checkPoints
 
+// works
+// //assigns points based on where a player marks the Magic Square 
+// 	getPoints: function( row, col ) {
+// 		var points = 0
+
+// 		if (row == 0 && col == 0) {
+// 			points = 8;
+// 		} else if (row == 0 && col == 1 ) {
+// 			points = 1;
+// 		} else if (row == 0 && col == 2 ) {
+// 			points = 6;
+// 		} else if (row == 1 && col == 0 ) {
+// 			points = 3;
+// 		} else if (row == 1 && col == 1 ) {
+// 			points = 5;
+// 		} else if (row == 1 && col == 2 ) {
+// 			points = 7;
+// 		} else if (row == 2 && col == 0 ) {
+// 			points = 4;
+// 		} else if (row == 2 && col == 1 ) {
+// 			points = 9;
+// 		} else if (row == 2 && col == 2 ) {
+// 			points = 2;
+// 		};
+// 		return points;
+// 	}, //END getPoints
 
 //assigns points based on where a player marks the Magic Square 
-	getPoints: function( row, col ) {
+	getPoints: function( squareElement) {
 		var points = 0
 
-		if (row == 0 && col == 0) {
+		if (squareElement == $('#row0col0')) {
 			points = 8;
-		} else if (row == 0 && col == 1 ) {
+		} else if (squareElement == $('#row0col1')) {
 			points = 1;
-		} else if (row == 0 && col == 2 ) {
+		} else if (squareElement == $('#row0col2')) {
 			points = 6;
-		} else if (row == 1 && col == 0 ) {
+		} else if (squareElement == $('#row1col0')) {
 			points = 3;
-		} else if (row == 1 && col == 1 ) {
+		} else if (squareElement == $('#row1col1')) {
 			points = 5;
-		} else if (row == 1 && col == 2 ) {
+		} else if (squareElement == $('#row1col2')) {
 			points = 7;
-		} else if (row == 2 && col == 0 ) {
+		} else if (squareElement == $('#row2col0')) {
 			points = 4;
-		} else if (row == 2 && col == 1 ) {
+		} else if (squareElement == $('#row2col1')) {
 			points = 9;
-		} else if (row == 2 && col == 2 ) {
+		} else if (squareElement == $('#row2col2')) {
 			points = 2;
 		};
 		return points;
