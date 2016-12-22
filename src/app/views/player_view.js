@@ -12,15 +12,16 @@ const PlayerView = Backbone.View.extend({
 		this.template = options.template;
 
 		// if my player changes, we re-render
+
 		this.listenTo(this.model, 'change', this.render );
 
 		this.player = options.player;
 	},
 
-
 	render: function() {
 // this sets what we want to see
-  var html = this.template({name: this.player.attributes.name});
+  var html = this.template({name: this.player.attributes.name, row0: this.player.attributes.row0});
+
 
   this.$el.html(html);
 
@@ -29,6 +30,7 @@ const PlayerView = Backbone.View.extend({
     // Enable chained calls
   return this;
   }, //render end
+
 });
 
 export default PlayerView;

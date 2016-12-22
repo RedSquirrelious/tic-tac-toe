@@ -12,84 +12,128 @@ const GameView = Backbone.View.extend({
 		this.template = options.template;
 		// if my game changes, we re-render
 		this.listenTo(this.model, 'change', this.render );
-		
+
 
 		this.currentGame = options.currentGame;
-		console.log('the spot where "' + this.currentGame.attributes.board[0][0] + '" was the mark');
+		// console.log('the spot where "' + this.currentGame.attributes.board[0][0] + '" was the mark');
 
 	},
 
 	events: { 
-		'click': 'chooseCartoonSquares'
+
+		'click .square': 'markSquare'
+
 	},
 
 	render: function() {
 		var that = this;
-		
-		for (var i = 0; i<3; i++) {
-			var rowClass = "row" + i;
-			this.el.insertAdjacentHTML('beforeend', "<p class='" + rowClass + "'>");
-			for (var n = 0; n < 3; n++) {
-				this.el.append(that.currentGame.attributes.board[i][n]);
-			};//END n
-			this.el.insertAdjacentHTML('beforeend', "</p>");
-			this.el.append("\n");
-		}; //END i
-
-		var html = $('#row0col0 p');
-
-	
-
-		this.chooseCartoonSquares(html, this.cartoonCharacterImages.elmer);
-
-		// html.append("<img src = https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Bugs_Bunny.svg/360px-Bugs_Bunny.svg.png>");
-
-
-
 // // this helps re-bind events since the html is all new
-  this.delegateEvents();
+  	this.delegateEvents();
 
 // Enable chained calls
 	 return this;
   }, //render end
 
-  cartoonCharacterImages: {
-  	bugs: "https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Bugs_Bunny.svg/360px-Bugs_Bunny.svg.png",
-  	elmer: "https://upload.wikimedia.org/wikipedia/en/6/66/ElmerFudd.gif",
+  markImages: {
+  	grass: "images/squirrel-grass.jpg",
+  	rocks: "images/squirrel-rocks-c.jpg",
 
-  	sam: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Yosemite_Sam.svg/360px-Yosemite_Sam.svg.png",
+  	bugs: "images/Bugs_Bunny.png",
 
-  	daffy: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Daffy_Duck.svg/360px-Daffy_Duck.svg.png",
+  	elmer: "images/Elmer_Fudd.gif",
 
-  	porky: "https://upload.wikimedia.org/wikipedia/en/thumb/8/88/Porky_Pig.svg/300px-Porky_Pig.svg.png",
+  	sam: "images/Yosemite_Sam.png",
 
-  	marvin: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Marvin_the_Martian.svg/334px-Marvin_the_Martian.svg.png",
+  	daffy: "images/Daffy_Duck.png",
 
-  	coyote: "https://upload.wikimedia.org/wikipedia/en/thumb/3/3c/Wile_E._Coyote.svg/220px-Wile_E._Coyote.svg.png",
+  	porky: "images/Porky_Pig.png",
 
-  	roadrunner: "https://upload.wikimedia.org/wikipedia/en/e/ee/Roadrunner_looney_tunes.png"
+  	marvin: "images/Marvin_the_Martian.png",
+
+  	coyote: "images/Wile_E._Coyote.png",
+
+  	roadrunner: "images/Roadrunner.png"
   },
 
-  chooseCartoonSquares: function(squareElement, character) {
-  	squareElement.append('<section class="cartoon"><img src=' + character + '></section>');
-  },
 
-	takeTurns: function(row, col) {
-		this.currentPlayer.chooseSquare(row, col);
+  markSquare: function(event) {
+  	//not entirely sure why i need to save the this as that here...  i can pass in 'this' as a method argument, but it won't accept it for the method call??
+  	var that = this;
 
-		if (this.board.playCounter >= 5) {
-			// console.log(this.checkWinStatus());
+  	console.log(event.target.id);
 
+  	//watches for clicks on the board squares
+		// $('.row-container').children().children().on('click', function() { 
+
+		//checks to see if an image/mark is in there already & stops them if there is
+			if ($('#' + event.target.id).has('.mark').length) { 
+				alert("This Square Already Has a Mark!  Try Another Square!"); 
+			} 
+
+		//if there is no image/mark in the clicked square, then puts a mark there and updates the player's points attributes (we calculate for win based on the player's points attributes)
+			else { 
+					var squareElement = '#' + event.target.id + ' p'; 
+					$(squareElement).append('<section class="mark"><img src=' + this.model.currentPlayer.attributes.mark + '></section>');};
+
+				//assigns the points associated with the clicked squares
+			var testPoints = that.getPoints(event.target.id);
+
+			// sets the player's Row attribute
+					this.model.currentPlayer.setPointsRow(testPoints, event.target.id);
+
+			// sets the player's Column attribute
+					this.model.currentPlayer.setPointsColumn(testPoints, event.target.id);
+
+			// sets the player's diagonal attributes
+					this.model.currentPlayer.setPointsDiagonal(testPoints, event.target.id);
+
+					this.takeTurns();
+
+	}, //END markSquare
+
+
+//IDEA IS TO ASSIGN POINTS BASED ON CLICKS
+//assigns points based on where a player marks the Magic Square 
+	getPoints: function( squareElement) {
+		var points = 0
+		if (squareElement == 'row0col0') {
+			points = 8;	
+		} else if (squareElement == 'row0col1') {
+			points = 1;
+		} else if (squareElement == 'row0col2') {
+			points = 6;
+		} else if (squareElement == 'row1col0') {
+			points = 3;
+		} else if (squareElement == 'row1col1') {
+			points = 5;
+		} else if (squareElement == 'row1col2') {
+			points = 7;
+		} else if (squareElement == 'row2col0') {
+			points = 4;
+		} else if (squareElement == 'row2col1') {
+			points = 9;
+		} else if (squareElement == 'row2col2') {
+			points = 2;
 		};
 
-		if (this.currentPlayer == this.player1) {
-			this.currentPlayer = this.player2;
-		} else if (this.currentPlayer == this.player2 ) {
-			this.currentPlayer = this.player1;
+		return points;
+	}, //END getPoints
+
+	takeTurns: function() {
+
+		// if (this.model.attributes.playCounter >= 5) {
+		// 	// console.log(this.checkWinStatus());
+		// 	$('#board h2').append('<h4>' + this.checkWinStatus + '</h4>');
+		// };
+
+		if (this.model.currentPlayer == this.model.attributes.player1) {
+			this.model.currentPlayer = this.model.attributes.player2;
+		} 
+
+		else if (this.model.currentPlayer == this.model.attributes.player2 ) {
+			this.model.currentPlayer = this.model.attributes.player1;
 		};
 
-
-		this.board.drawBoard();
 	} //END takeTurns
 
 });

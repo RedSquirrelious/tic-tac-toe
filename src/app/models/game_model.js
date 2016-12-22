@@ -20,8 +20,6 @@ const Game = Backbone.Model.extend({
 
 //makes a new game
 	initialize: function(options) {
-		// this.set("date", new Date.toLocaleTimeString('en-US', {timeZone: zone, timeZoneName: 'short'}));
-		this.set("board", [["-", "-", "-"], ["-", "-", "-"], ["-", "-", "-"]]);
 
 		this.set("player1", options.player1);
 		this.set("player2", options.player2);

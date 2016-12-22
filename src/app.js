@@ -25,25 +25,58 @@ $(document).ready(function() {
 	var player1 = new Player({name: testPlayers[0].name});
 	var player2 = new Player({name: testPlayers[1].name});
 
+
+
 	var game = new Game({player1: player1, player2: player2});
 
+	console.log('no currentPlayer ' + game.attributes.currentPlayer);
 	var board = new GameView(
 	{
 	  // model: Game,
 	  template: _.template($('#board-template').html()),
 	  el: $('#game'),
-	 	currentGame: game
+	 	model: game
 	}
 	);
 
-	var list = new PlayerView({
+	var p1 = new PlayerView({
 		el: $('#player-list'),
-		model: Player,
+		model: player1,
 		template: _.template($('#player-list-template').html()),
 		player: player1
 	});
 
+	var p2 = new PlayerView({
+		el: $('#player-list'),
+		model: Player,
+		template: _.template($('#player-list-template').html()),
+		player: player2
+	});
+
+	game.currentPlayer = player1;
+
+	// console.log('i am the current player: ' + game.currentPlayer.attributes.name);
+
+	// console.log(game.currentPlayer.attributes);
+
+	// console.log(game.get('player2').attributes);
+
+	// game.currentPlayer = player2;
+
+	// game.set('currentPlayer', player2);
+
+		// console.log('i am the current player now: ' + game.currentPlayer.attributes.name);
+
+	player1.currentGame = game;
+	player1.set('mark', board.markImages.bugs);
+
+	player2.currentGame = game;
+	player2.set('mark', board.markImages.sam);
+
+
+
 
 	board.render();
-  list.render();
+ 	p1.render();
+
 });
