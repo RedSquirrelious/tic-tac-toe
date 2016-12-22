@@ -25,7 +25,11 @@ $(document).ready(function() {
 	var player1 = new Player({name: testPlayers[0].name});
 	var player2 = new Player({name: testPlayers[1].name});
 
+
+
 	var game = new Game({player1: player1, player2: player2});
+
+	console.log('no currentPlayer ' + game.attributes.currentPlayer);
 	var board = new GameView(
 	{
 	  // model: Game,
@@ -51,19 +55,23 @@ $(document).ready(function() {
 
 	game.currentPlayer = player1;
 
-	console.log('i am the current player: ' + game.currentPlayer.attributes.name);
+	// console.log('i am the current player: ' + game.currentPlayer.attributes.name);
+
+	// console.log(game.currentPlayer.attributes);
+
+	// console.log(game.get('player2').attributes);
 
 	// game.currentPlayer = player2;
 
-	game.set({'currentPlayer': 'player2'});
+	// game.set('currentPlayer', player2);
 
-		console.log('i am the current player now: ' + game.currentPlayer.attributes.name);
+		// console.log('i am the current player now: ' + game.currentPlayer.attributes.name);
 
 	player1.currentGame = game;
-	player1.set('mark', board.squirrelImages.grass);
+	player1.set('mark', board.markImages.bugs);
 
 	player2.currentGame = game;
-	player2.set('mark', board.squirrelImages.rocks);
+	player2.set('mark', board.markImages.sam);
 
 
 
