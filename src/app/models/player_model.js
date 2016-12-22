@@ -6,12 +6,12 @@ const Player = Backbone.Model.extend({
 		mark: '',
 		status: '',
 		currentGame: '',
+		row0: 0,
 		row1: 0,
 		row2: 0,
-		row3: 0,
+		col0: 0,
 		col1: 0,
 		col2: 0,
-		col3: 0,
 		diagonalL2R: 0,
 		diagonalR2L: 0
 	}, // END defaults
@@ -21,9 +21,22 @@ const Player = Backbone.Model.extend({
 	initialize: function(options) {
 		this.set("name", options.name)
 		this.set("row1", 0)
+		console.log(this.get("name"));
+		console.log(this.get('col2'));
 		console.log('new Player created: ' + this.get("name"));
+
+		// this.listenTo('updatePlayer', this.testClickResponse());
+
 	}, //END initialize
 
+	events: {
+		'click': 'testClickResponse'
+	},
+
+	testClickResponse: function() {
+		this.listenTo('updatePlayer', this);
+		console.log('it worked');
+	},
 
 //sets the players' names
 	setName: function(name) {
@@ -42,15 +55,43 @@ const Player = Backbone.Model.extend({
 
 //
 	chooseSquare: function(row, col) {
-		this.currentGame.board.setMarkAtPosition(row, col, this.mark);
+		// this.currentGame.board.setMarkAtPosition(row, col, this.mark);
 		var points = this.getPoints( row, col );
 		this.setPoints();
 	}, //END chooseSquare
 
+//works
+// //changes the player's attributes based on points from the Magic Square
+// 	setPoints: function(row, col) {
+// 		if (row == 0) {
+// 			this.row0 += points;
+// 		} else if (row == 1) {
+// 			this.row1 += points;
+// 		} else if (row == 2) {
+// 			this.row2 += points;
+// 		};
 
+// 		if (col == 0 ) {
+// 			this.col0 += points;
+// 		} else if (col == 1 ) {
+// 			this.col1 += points;
+// 		} else if (col == 2) {
+// 			this.col2 += points;
+// 		};
+
+// 		if ((row == 0 && col == 0 ) || (row == 1 && col == 1 ) || (row == 2 && col == 2 )) {
+// 			this.diagonalL2R += points;
+// 		};
+
+// 		if ((row == 0 && col == 2 ) || (row == 1 && col == 2 ) || (row == 2 && col == 0 )) {
+// 			this.diagonalR2L += points;
+// 		};
+// 	}, //END setPoints
+
+//IDEA IS TO CHANGE BASED ON CLICK
 //changes the player's attributes based on points from the Magic Square
-	setPoints: function(row, col) {
-		if (row == 0) {
+	setPoints: function(squareElement) {
+		if (squareElement == $('#row0')) {
 			this.row0 += points;
 		} else if (row == 1) {
 			this.row1 += points;
@@ -74,6 +115,7 @@ const Player = Backbone.Model.extend({
 			this.diagonalR2L += points;
 		};
 	}, //END setPoints
+
 
 
 //checks to see if a player won (based on the Magic Square)
@@ -111,12 +153,15 @@ const Player = Backbone.Model.extend({
 // 		return points;
 // 	}, //END getPoints
 
+
+//IDEA IS TO ASSIGN POINTS BASED ON CLICKS
 //assigns points based on where a player marks the Magic Square 
 	getPoints: function( squareElement) {
 		var points = 0
 
 		if (squareElement == $('#row0col0')) {
 			points = 8;
+			console.log(points);
 		} else if (squareElement == $('#row0col1')) {
 			points = 1;
 		} else if (squareElement == $('#row0col2')) {
