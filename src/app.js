@@ -31,13 +31,13 @@ $(document).ready(function() {
 	  // model: Game,
 	  template: _.template($('#board-template').html()),
 	  el: $('#game'),
-	 	currentGame: game
+	 	model: game
 	}
 	);
 
 	var p1 = new PlayerView({
 		el: $('#player-list'),
-		model: Player,
+		model: player1,
 		template: _.template($('#player-list-template').html()),
 		player: player1
 	});
@@ -51,8 +51,16 @@ $(document).ready(function() {
 
 	game.currentPlayer = player1;
 
+	console.log('i am the current player: ' + game.currentPlayer.attributes.name);
+
+	// game.currentPlayer = player2;
+
+	game.set({'currentPlayer': 'player2'});
+
+		console.log('i am the current player now: ' + game.currentPlayer.attributes.name);
+
 	player1.currentGame = game;
-	player1.set('mark', board.squirrelImages.rocks);
+	player1.set('mark', board.squirrelImages.grass);
 
 	player2.currentGame = game;
 	player2.set('mark', board.squirrelImages.rocks);
