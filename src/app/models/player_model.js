@@ -22,12 +22,7 @@ const Player = Backbone.Model.extend({
 //gives us a new player
 	initialize: function(options) {
 		this.set("name", options.name)
-		this.set("row1", 0)
-		console.log(this.get("name"));
-		console.log(this.get('col2'));
 		console.log('new Player created: ' + this.get("name"));
-
-
 	}, //END initialize
 
 
@@ -46,96 +41,55 @@ const Player = Backbone.Model.extend({
 	}, //END setMark
 
 
-//
-	chooseSquare: function(row, col) {
-		// this.currentGame.board.setMarkAtPosition(row, col, this.mark);
-		var points = this.getPoints( row, col );
-		this.setPoints();
-	}, //END chooseSquare
-
-//works
-// //changes the player's attributes based on points from the Magic Square
-// 	setPoints: function(row, col) {
-// 		if (row == 0) {
-// 			this.row0 += points;
-// 		} else if (row == 1) {
-// 			this.row1 += points;
-// 		} else if (row == 2) {
-// 			this.row2 += points;
-// 		};
-
-// 		if (col == 0 ) {
-// 			this.col0 += points;
-// 		} else if (col == 1 ) {
-// 			this.col1 += points;
-// 		} else if (col == 2) {
-// 			this.col2 += points;
-// 		};
-
-// 		if ((row == 0 && col == 0 ) || (row == 1 && col == 1 ) || (row == 2 && col == 2 )) {
-// 			this.diagonalL2R += points;
-// 		};
-
-// 		if ((row == 0 && col == 2 ) || (row == 1 && col == 2 ) || (row == 2 && col == 0 )) {
-// 			this.diagonalR2L += points;
-// 		};
-// 	}, //END setPoints
 
 //IDEA IS TO CHANGE BASED ON CLICK
 //changes the player's attributes based on points from the Magic Square
 	setPointsRow: function(points, squareElement) {
-		// console.log('Player setPoints:  i am supposed to talk about my attribute.  expect a number');
+		
 		console.log(this.attributes.row0);
-		// console.log('Player setPoints: i am squareElement ' + squareElement );
-
 	
 
 		if (squareElement.substr(0,4) == 'row0') {
-			this.attributes.row0 += points;
+			this.set('row0', this.get("row0") + points);
 
-			console.log("Player setPoints: i'm the player's row0 attribute! " + this.attributes.row0);
+		} 	
 
-		} 	else if (squareElement.substr(0,4) == 'row1') {			
-			this.attributes.row1 += points;
-			console.log("Player setPoints: i'm the player's row1 attribute! " + this.attributes.row1);
+		else if (squareElement.substr(0,4) == 'row1') {			
+			this.set('row1', this.get("row0") + points);
+		} 
 
-		} else if (squareElement.substr(0,4) == 'row2') {			
-			this.attributes.row2 += points;
-			console.log("Player setPoints: i'm the player's row2 attribute! " + this.attributes.row2);
-			console.log(this.attributes.row2);
+		else if (squareElement.substr(0,4) == 'row2') {			
+			this.set('row2', this.get("row0") + points);
 		};
 	},
 
 	setPointsColumn: function(points, squareElement) {
-		// console.log('Player setPoints:  i am supposed to talk about my attribute.  expect a number');
+		// 
 		console.log(this.attributes.col0);
 
 		if (squareElement.substr(4,6) == 'col0') {
-			this.attributes.col0 += points;
-			console.log("Player setPoints: i'm the player's col0 attribute! " + this.attributes.col0);
-		} 	else if (squareElement.substr(4,6) == 'col1') {			
-			this.attributes.col1 += points;
-			console.log("Player setPoints: i'm the player's col1 attribute! " + this.attributes.col1);
-		} else if (squareElement.substr(4,6) == 'col2') {			
-			this.attributes.col2 += points;
-			console.log("Player setPoints: i'm the player's col2 attribute! " + this.attributes.col0);
-			console.log(this.attributes.row2);
+			this.set('col0', this.get("col0") + points);
+		} 	
+
+		else if (squareElement.substr(4,6) == 'col1') {			
+			this.set('col1', this.get("col1") + points);
+		} 
+
+		else if (squareElement.substr(4,6) == 'col2') {			
+			this.set('col2', this.get("col2") + points);
 		};
 	}, //END setPoints
 
 	setPointsDiagonal: function(points, squareElement) {
-		console.log('Player setPoints:  i am supposed to talk about my attribute.  expect a number');
-		console.log(this.attributes.diagonalR2L);
 
 		if ((squareElement.substr(0,4) == 'row0' && squareElement.substr(4,6) == 'col0' ) || (squareElement.substr(0,4) == 'row1' && squareElement.substr(4,6) == 'col1' ) || (squareElement.substr(0,4) == 'row2' && squareElement.substr(4,6) == 'col2' )) {
-			this.attributes.diagonalL2R += points;
-			console.log('setPointsDiagonal: here are the points for diagonalL2R: ' + this.attributes.diagonalL2R);
+
+			this.set('diagonalL2R', this.get('diagonalL2R') + points);
 		};
 
 		if ((squareElement.substr(0,4) == 'row0' && squareElement.substr(4,6) == 'col2' ) || (squareElement.substr(0,4) == 'row1' && squareElement.substr(4,6) == 'col1' ) || (squareElement.substr(0,4) == 'row2' && squareElement.substr(4,6) == 'col0' )) {
-			this.attributes.diagonalR2L += points;
-
-			console.log('setPointsDiagonal: here are the points for diagonalL2R: ' + this.attributes.diagonalR2L);
+			
+			this.set('diagonalR2L', this.get('diagonalR2L') + points);
 		};
 	},
 
