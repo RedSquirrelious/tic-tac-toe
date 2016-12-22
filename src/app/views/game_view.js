@@ -36,10 +36,9 @@ const GameView = Backbone.View.extend({
 			this.el.append("\n");
 		}; //END i
 
+		console.log('squee ' + this.currentGame.attributes.player1.attributes.name);
 
-		this.listenTo(this, 'testHearing', this.markSquare(this, this.squirrelImages.grass));
-
-
+		this.listenTo(this.markSquare(this, this.squirrelImages.rocks));
 // // this helps re-bind events since the html is all new
   	this.delegateEvents();
 
@@ -71,20 +70,71 @@ const GameView = Backbone.View.extend({
 
 
   markSquare: function(squareElement, character) {
+  	//not entirely sure why i need to save the this as that here...  i can pass in 'this' as a method argument, but it won't accept it for the method call??
+  	var that = this;
+
+
+  	//watches for clicks on the board squares
 		$('.row-container').children().children().on('click', function() { 
+
+		//checks to see if an image/mark is in there already & stops them if there is
 			if ($(this).has('.cartoon').length) { 
 				alert("This Square Already Has a Mark!  Try Another Square!"); 
-			} else { var squareElement = '#' + this.id + ' p'; 
-					$(squareElement).append('<section class="cartoon"><img src=' + character + '></section>');};
+			} 
+
+		//if there is no image/mark in the clicked square, then puts a mark there and updates the player's points attributes (we calculate for win based on the player's points attributes)
+			else { 
+					var squareElement = '#' + this.id + ' p'; 
+					$(squareElement).append('<section class="cartoon"><img src=' + that.currentGame.currentPlayer.attributes.mark + '></section>');};
+
+
+				console.log('hello ' + that.currentGame.attributes.player1.attributes.name);
+				console.log('woah ' + that.currentGame.currentPlayer.attributes.name);
+
+				//assigns the points associated with the clicked squares
+			var testPoints = that.getPoints(this.id);
+
+			//sets the player's Row attribute
+					that.currentGame.currentPlayer.setPointsRow(testPoints, this.id);
+
+			//sets the player's Column attribute
+					that.currentGame.currentPlayer.setPointsColumn(testPoints, this.id);
+
+			//sets the player's diagonal attributes
+					that.currentGame.currentPlayer.setPointsDiagonal(testPoints, this.id);
+
+
 		});
+
 	}, //END markSquare
 
- //  	chooseSquare: function(row, col) {
-	// 	this.currentGame.board.setMarkAtPosition(row, col, this.mark);
-	// 	var points = this.getPoints( row, col );
-	// 	this.setPoints();
-	// }, //END chooseSquare
 
+//IDEA IS TO ASSIGN POINTS BASED ON CLICKS
+//assigns points based on where a player marks the Magic Square 
+	getPoints: function( squareElement) {
+		var points = 0
+		if (squareElement == 'row0col0') {
+			points = 8;	
+		} else if (squareElement == 'row0col1') {
+			points = 1;
+		} else if (squareElement == 'row0col2') {
+			points = 6;
+		} else if (squareElement == 'row1col0') {
+			points = 3;
+		} else if (squareElement == 'row1col1') {
+			points = 5;
+		} else if (squareElement == 'row1col2') {
+			points = 7;
+		} else if (squareElement == 'row2col0') {
+			points = 4;
+		} else if (squareElement == 'row2col1') {
+			points = 9;
+		} else if (squareElement == 'row2col2') {
+			points = 2;
+		};
+		
+		return points;
+	}, //END getPoints
 
 	takeTurns: function(row, col) {
 		this.currentPlayer.chooseSquare(row, col);
