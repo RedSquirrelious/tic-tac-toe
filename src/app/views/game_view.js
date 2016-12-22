@@ -12,7 +12,6 @@ const GameView = Backbone.View.extend({
 		this.template = options.template;
 		// if my game changes, we re-render
 		this.listenTo(this.model, 'change', this.render );
-		
 
 
 		this.currentGame = options.currentGame;
@@ -21,7 +20,7 @@ const GameView = Backbone.View.extend({
 	},
 
 	events: { 
-		// 'click': 'markSquare'
+
 	},
 
 	render: function() {
@@ -38,7 +37,8 @@ const GameView = Backbone.View.extend({
 		}; //END i
 
 
-		this.markSquare(this, this.squirrelImages.rocks);
+		this.listenTo(this, 'testHearing', this.markSquare(this, this.squirrelImages.grass));
+
 
 // // this helps re-bind events since the html is all new
   	this.delegateEvents();
@@ -71,12 +71,13 @@ const GameView = Backbone.View.extend({
 
 
   markSquare: function(squareElement, character) {
- 		$('.row-container').children().children().on('click', function() { 
-  				var squareElement = '#' + this.id + ' p'; 
-
-			$(squareElement).append('<section class="cartoon"><img src=' + character + '></section>');
+		$('.row-container').children().children().on('click', function() { 
+			if ($(this).has('.cartoon').length) { 
+				alert("This Square Already Has a Mark!  Try Another Square!"); 
+			} else { var squareElement = '#' + this.id + ' p'; 
+					$(squareElement).append('<section class="cartoon"><img src=' + character + '></section>');};
 		});
-  },
+	}, //END markSquare
 
  //  	chooseSquare: function(row, col) {
 	// 	this.currentGame.board.setMarkAtPosition(row, col, this.mark);
