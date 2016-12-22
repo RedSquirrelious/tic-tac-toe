@@ -15,30 +15,32 @@ const GameView = Backbone.View.extend({
 
 
 		this.currentGame = options.currentGame;
-		console.log('the spot where "' + this.currentGame.attributes.board[0][0] + '" was the mark');
+		// console.log('the spot where "' + this.currentGame.attributes.board[0][0] + '" was the mark');
 
 	},
 
 	events: { 
+
+		'click .square': 'markSquare'
 
 	},
 
 	render: function() {
 		var that = this;
 		
-		for (var i = 0; i<3; i++) {
-			var rowClass = "row" + i;
-			this.el.insertAdjacentHTML('beforeend', "<p class='" + rowClass + "'>");
-			for (var n = 0; n < 3; n++) {
-				this.el.append(that.currentGame.attributes.board[i][n]);
-			};//END n
-			this.el.insertAdjacentHTML('beforeend', "</p>");
-			this.el.append("\n");
-		}; //END i
+		// for (var i = 0; i<3; i++) {
+		// 	var rowClass = "row" + i;
+		// 	this.el.insertAdjacentHTML('beforeend', "<p class='" + rowClass + "'>");
+		// 	for (var n = 0; n < 3; n++) {
+		// 		this.el.append(that.currentGame.attributes.board[i][n]);
+		// 	};//END n
+		// 	this.el.insertAdjacentHTML('beforeend', "</p>");
+		// 	this.el.append("\n");
+		// }; //END i
 
-		console.log('squee ' + this.currentGame.attributes.player1.attributes.name);
+		// console.log('squee ' + this.currentGame.attributes.player1.attributes.name);
 
-		this.listenTo(this.markSquare(this, this.squirrelImages.rocks));
+		// this.listenTo(this.markSquare(this, this.squirrelImages.rocks));
 // // this helps re-bind events since the html is all new
   	this.delegateEvents();
 
@@ -69,42 +71,38 @@ const GameView = Backbone.View.extend({
   },
 
 
-  markSquare: function(squareElement, character) {
+  markSquare: function(event) {
   	//not entirely sure why i need to save the this as that here...  i can pass in 'this' as a method argument, but it won't accept it for the method call??
   	var that = this;
 
+  	console.log(event.target.id);
 
   	//watches for clicks on the board squares
-		$('.row-container').children().children().on('click', function() { 
+		// $('.row-container').children().children().on('click', function() { 
 
 		//checks to see if an image/mark is in there already & stops them if there is
-			if ($(this).has('.cartoon').length) { 
+			if ($('#' + event.target.id).has('.cartoon').length) { 
 				alert("This Square Already Has a Mark!  Try Another Square!"); 
 			} 
 
 		//if there is no image/mark in the clicked square, then puts a mark there and updates the player's points attributes (we calculate for win based on the player's points attributes)
 			else { 
-					var squareElement = '#' + this.id + ' p'; 
-					$(squareElement).append('<section class="cartoon"><img src=' + that.currentGame.currentPlayer.attributes.mark + '></section>');};
-
-
-				console.log('hello ' + that.currentGame.attributes.player1.attributes.name);
-				console.log('woah ' + that.currentGame.currentPlayer.attributes.name);
+					var squareElement = '#' + event.target.id + ' p'; 
+					$(squareElement).append('<section class="cartoon"><img src=' + this.model.currentPlayer.attributes.mark + '></section>');};
 
 				//assigns the points associated with the clicked squares
-			var testPoints = that.getPoints(this.id);
+			var testPoints = that.getPoints(event.target.id);
 
-			//sets the player's Row attribute
-					that.currentGame.currentPlayer.setPointsRow(testPoints, this.id);
+			// sets the player's Row attribute
+					this.model.currentPlayer.setPointsRow(testPoints, event.target.id);
 
-			//sets the player's Column attribute
-					that.currentGame.currentPlayer.setPointsColumn(testPoints, this.id);
+			// sets the player's Column attribute
+					this.model.currentPlayer.setPointsColumn(testPoints, event.target.id);
 
-			//sets the player's diagonal attributes
-					that.currentGame.currentPlayer.setPointsDiagonal(testPoints, this.id);
+			// sets the player's diagonal attributes
+					this.model.currentPlayer.setPointsDiagonal(testPoints, event.target.id);
 
-
-		});
+					this.takeTurns();
 
 	}, //END markSquare
 
@@ -132,27 +130,29 @@ const GameView = Backbone.View.extend({
 		} else if (squareElement == 'row2col2') {
 			points = 2;
 		};
-		
+
 		return points;
 	}, //END getPoints
 
-	takeTurns: function(row, col) {
-		this.currentPlayer.chooseSquare(row, col);
+	takeTurns: function() {
 
-		if (this.board.playCounter >= 5) {
-			// console.log(this.checkWinStatus());
-			$('#board h2').append('<h4>' + this.checkWinStatus + '</h4>');
+		console.log(this.model.currentPlayer.attributes.name);
 
+		console.log(this.model.attributes.player1.attributes.name);
+		// console.log(this.model.player1.attributes.name);
+		// if (this.model.attributes.playCounter >= 5) {
+		// 	// console.log(this.checkWinStatus());
+		// 	$('#board h2').append('<h4>' + this.checkWinStatus + '</h4>');
+		// };
+
+		if (this.model.currentPlayer == this.model.attributes.player1) {
+			this.model.currentPlayer = this.model.attributes.player2;
+		} 
+
+		else if (this.model.currentPlayer == this.model.attributes.player2 ) {
+			this.model.currentPlayer = this.model.attributes.player1;
 		};
 
-		if (this.currentPlayer == this.player1) {
-			this.currentPlayer = this.player2;
-		} else if (this.currentPlayer == this.player2 ) {
-			this.currentPlayer = this.player1;
-		};
-
-
-		this.board.drawBoard();
 	} //END takeTurns
 
 });
