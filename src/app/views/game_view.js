@@ -27,20 +27,6 @@ const GameView = Backbone.View.extend({
 
 	render: function() {
 		var that = this;
-		
-		// for (var i = 0; i<3; i++) {
-		// 	var rowClass = "row" + i;
-		// 	this.el.insertAdjacentHTML('beforeend', "<p class='" + rowClass + "'>");
-		// 	for (var n = 0; n < 3; n++) {
-		// 		this.el.append(that.currentGame.attributes.board[i][n]);
-		// 	};//END n
-		// 	this.el.insertAdjacentHTML('beforeend', "</p>");
-		// 	this.el.append("\n");
-		// }; //END i
-
-		// console.log('squee ' + this.currentGame.attributes.player1.attributes.name);
-
-		// this.listenTo(this.markSquare(this, this.squirrelImages.rocks));
 // // this helps re-bind events since the html is all new
   	this.delegateEvents();
 
@@ -48,26 +34,25 @@ const GameView = Backbone.View.extend({
 	 return this;
   }, //render end
 
-  squirrelImages: {
+  markImages: {
   	grass: "images/squirrel-grass.jpg",
-  	rocks: "images/squirrel-rocks.jpg"
-  },
+  	rocks: "images/squirrel-rocks-c.jpg",
 
-  cartoonCharacterImages: {
-  	bugs: "https://upload.wikimedia.org/wikipedia/en/thumb/1/17/Bugs_Bunny.svg/360px-Bugs_Bunny.svg.png",
-  	elmer: "https://upload.wikimedia.org/wikipedia/en/6/66/ElmerFudd.gif",
+  	bugs: "images/Bugs_Bunny.png",
 
-  	sam: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Yosemite_Sam.svg/360px-Yosemite_Sam.svg.png",
+  	elmer: "images/Elmer_Fudd.gif",
 
-  	daffy: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Daffy_Duck.svg/360px-Daffy_Duck.svg.png",
+  	sam: "images/Yosemite_Sam.png",
 
-  	porky: "https://upload.wikimedia.org/wikipedia/en/thumb/8/88/Porky_Pig.svg/300px-Porky_Pig.svg.png",
+  	daffy: "images/Daffy_Duck.png",
 
-  	marvin: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Marvin_the_Martian.svg/334px-Marvin_the_Martian.svg.png",
+  	porky: "images/Porky_Pig.png",
 
-  	coyote: "https://upload.wikimedia.org/wikipedia/en/thumb/3/3c/Wile_E._Coyote.svg/220px-Wile_E._Coyote.svg.png",
+  	marvin: "images/Marvin_the_Martian.png",
 
-  	roadrunner: "https://upload.wikimedia.org/wikipedia/en/e/ee/Roadrunner_looney_tunes.png"
+  	coyote: "images/Wile_E._Coyote.png",
+
+  	roadrunner: "images/Roadrunner.png"
   },
 
 
@@ -81,14 +66,14 @@ const GameView = Backbone.View.extend({
 		// $('.row-container').children().children().on('click', function() { 
 
 		//checks to see if an image/mark is in there already & stops them if there is
-			if ($('#' + event.target.id).has('.cartoon').length) { 
+			if ($('#' + event.target.id).has('.mark').length) { 
 				alert("This Square Already Has a Mark!  Try Another Square!"); 
 			} 
 
 		//if there is no image/mark in the clicked square, then puts a mark there and updates the player's points attributes (we calculate for win based on the player's points attributes)
 			else { 
 					var squareElement = '#' + event.target.id + ' p'; 
-					$(squareElement).append('<section class="cartoon"><img src=' + this.model.currentPlayer.attributes.mark + '></section>');};
+					$(squareElement).append('<section class="mark"><img src=' + this.model.currentPlayer.attributes.mark + '></section>');};
 
 				//assigns the points associated with the clicked squares
 			var testPoints = that.getPoints(event.target.id);
@@ -136,10 +121,6 @@ const GameView = Backbone.View.extend({
 
 	takeTurns: function() {
 
-		console.log(this.model.currentPlayer.attributes.name);
-
-		console.log(this.model.attributes.player1.attributes.name);
-		// console.log(this.model.player1.attributes.name);
 		// if (this.model.attributes.playCounter >= 5) {
 		// 	// console.log(this.checkWinStatus());
 		// 	$('#board h2').append('<h4>' + this.checkWinStatus + '</h4>');
