@@ -3,7 +3,8 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 
 const Player = Backbone.Model.extend({
-	defaults: {
+	defaults: function(){
+		return {
 		name: '',
 		mark: '',
 		status: '',
@@ -16,7 +17,7 @@ const Player = Backbone.Model.extend({
 		col2: 0,
 		diagonalL2R: 0,
 		diagonalR2L: 0
-	}, // END defaults
+	};}, // END defaults
 
 
 //gives us a new player
