@@ -26,7 +26,6 @@ $(document).ready(function() {
 	var player2 = new Player({name: testPlayers[1].name});
 
 	var game = new Game({player1: player1, player2: player2});
-
 	var board = new GameView(
 	{
 	  // model: Game,
@@ -36,14 +35,32 @@ $(document).ready(function() {
 	}
 	);
 
-	var list = new PlayerView({
+	var p1 = new PlayerView({
 		el: $('#player-list'),
 		model: Player,
 		template: _.template($('#player-list-template').html()),
 		player: player1
 	});
 
+	var p2 = new PlayerView({
+		el: $('#player-list'),
+		model: Player,
+		template: _.template($('#player-list-template').html()),
+		player: player2
+	});
+
+	game.currentPlayer = player1;
+
+	player1.currentGame = game;
+	player1.set('mark', board.squirrelImages.rocks);
+
+	player2.currentGame = game;
+	player2.set('mark', board.squirrelImages.rocks);
+
+
+
 
 	board.render();
-  list.render();
+ 	p1.render();
+
 });
