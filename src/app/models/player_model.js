@@ -1,4 +1,6 @@
+import $ from 'jquery';
 import Backbone from 'backbone';
+import _ from 'underscore';
 
 const Player = Backbone.Model.extend({
 	defaults: {
@@ -25,18 +27,9 @@ const Player = Backbone.Model.extend({
 		console.log(this.get('col2'));
 		console.log('new Player created: ' + this.get("name"));
 
-		// this.listenTo('updatePlayer', this.testClickResponse());
 
 	}, //END initialize
 
-	events: {
-		'click': 'testClickResponse'
-	},
-
-	testClickResponse: function() {
-		this.listenTo('updatePlayer', this);
-		console.log('it worked');
-	},
 
 //sets the players' names
 	setName: function(name) {
@@ -90,97 +83,72 @@ const Player = Backbone.Model.extend({
 
 //IDEA IS TO CHANGE BASED ON CLICK
 //changes the player's attributes based on points from the Magic Square
-	setPoints: function(squareElement) {
-		if (squareElement == $('#row0')) {
-			this.row0 += points;
-		} else if (row == 1) {
-			this.row1 += points;
-		} else if (row == 2) {
-			this.row2 += points;
-		};
+	setPointsRow: function(points, squareElement) {
+		// console.log('Player setPoints:  i am supposed to talk about my attribute.  expect a number');
+		console.log(this.attributes.row0);
+		// console.log('Player setPoints: i am squareElement ' + squareElement );
 
-		if (col == 0 ) {
-			this.col0 += points;
-		} else if (col == 1 ) {
-			this.col1 += points;
-		} else if (col == 2) {
-			this.col2 += points;
-		};
+	
 
-		if ((row == 0 && col == 0 ) || (row == 1 && col == 1 ) || (row == 2 && col == 2 )) {
-			this.diagonalL2R += points;
-		};
+		if (squareElement.substr(0,4) == 'row0') {
+			this.attributes.row0 += points;
 
-		if ((row == 0 && col == 2 ) || (row == 1 && col == 2 ) || (row == 2 && col == 0 )) {
-			this.diagonalR2L += points;
+			console.log("Player setPoints: i'm the player's row0 attribute! " + this.attributes.row0);
+
+		} 	else if (squareElement.substr(0,4) == 'row1') {			
+			this.attributes.row1 += points;
+			console.log("Player setPoints: i'm the player's row1 attribute! " + this.attributes.row1);
+
+		} else if (squareElement.substr(0,4) == 'row2') {			
+			this.attributes.row2 += points;
+			console.log("Player setPoints: i'm the player's row2 attribute! " + this.attributes.row2);
+			console.log(this.attributes.row2);
+		};
+	},
+
+	setPointsColumn: function(points, squareElement) {
+		// console.log('Player setPoints:  i am supposed to talk about my attribute.  expect a number');
+		console.log(this.attributes.col0);
+
+		if (squareElement.substr(4,6) == 'col0') {
+			this.attributes.col0 += points;
+			console.log("Player setPoints: i'm the player's col0 attribute! " + this.attributes.col0);
+		} 	else if (squareElement.substr(4,6) == 'col1') {			
+			this.attributes.col1 += points;
+			console.log("Player setPoints: i'm the player's col1 attribute! " + this.attributes.col1);
+		} else if (squareElement.substr(4,6) == 'col2') {			
+			this.attributes.col2 += points;
+			console.log("Player setPoints: i'm the player's col2 attribute! " + this.attributes.col0);
+			console.log(this.attributes.row2);
 		};
 	}, //END setPoints
 
+	setPointsDiagonal: function(points, squareElement) {
+		console.log('Player setPoints:  i am supposed to talk about my attribute.  expect a number');
+		console.log(this.attributes.diagonalR2L);
 
+		if ((squareElement.substr(0,4) == 'row0' && squareElement.substr(4,6) == 'col0' ) || (squareElement.substr(0,4) == 'row1' && squareElement.substr(4,6) == 'col1' ) || (squareElement.substr(0,4) == 'row2' && squareElement.substr(4,6) == 'col2' )) {
+			this.attributes.diagonalL2R += points;
+			console.log('setPointsDiagonal: here are the points for diagonalL2R: ' + this.attributes.diagonalL2R);
+		};
+
+		if ((squareElement.substr(0,4) == 'row0' && squareElement.substr(4,6) == 'col2' ) || (squareElement.substr(0,4) == 'row1' && squareElement.substr(4,6) == 'col1' ) || (squareElement.substr(0,4) == 'row2' && squareElement.substr(4,6) == 'col0' )) {
+			this.attributes.diagonalR2L += points;
+
+			console.log('setPointsDiagonal: here are the points for diagonalL2R: ' + this.attributes.diagonalR2L);
+		};
+	},
 
 //checks to see if a player won (based on the Magic Square)
 	checkPoints: function() {
-		if (this.row0 == 15 || this.row1 == 15 || this.row2 == 15 || this.col0 == 15 || this.col1 == 15 || this.col2 == 15 || this.diagonalR2L == 15 || this.diagonalL2R == 15) {
+		if (this.attributes.row0 == 15 || this.attributes.row1 == 15 || this.attributes.row2 == 15 || this.attributes.col0 == 15 || this.attributes.col1 == 15 || this.attributes.col2 == 15 || this.attributes.diagonalR2L == 15 || this.attributes.diagonalL2R == 15) {
 			return true;
 		};
 		return false;
 	}, //END checkPoints
 
-// works
-// //assigns points based on where a player marks the Magic Square 
-// 	getPoints: function( row, col ) {
-// 		var points = 0
-
-// 		if (row == 0 && col == 0) {
-// 			points = 8;
-// 		} else if (row == 0 && col == 1 ) {
-// 			points = 1;
-// 		} else if (row == 0 && col == 2 ) {
-// 			points = 6;
-// 		} else if (row == 1 && col == 0 ) {
-// 			points = 3;
-// 		} else if (row == 1 && col == 1 ) {
-// 			points = 5;
-// 		} else if (row == 1 && col == 2 ) {
-// 			points = 7;
-// 		} else if (row == 2 && col == 0 ) {
-// 			points = 4;
-// 		} else if (row == 2 && col == 1 ) {
-// 			points = 9;
-// 		} else if (row == 2 && col == 2 ) {
-// 			points = 2;
-// 		};
-// 		return points;
-// 	}, //END getPoints
 
 
-//IDEA IS TO ASSIGN POINTS BASED ON CLICKS
-//assigns points based on where a player marks the Magic Square 
-	getPoints: function( squareElement) {
-		var points = 0
-
-		if (squareElement == $('#row0col0')) {
-			points = 8;
-			console.log(points);
-		} else if (squareElement == $('#row0col1')) {
-			points = 1;
-		} else if (squareElement == $('#row0col2')) {
-			points = 6;
-		} else if (squareElement == $('#row1col0')) {
-			points = 3;
-		} else if (squareElement == $('#row1col1')) {
-			points = 5;
-		} else if (squareElement == $('#row1col2')) {
-			points = 7;
-		} else if (squareElement == $('#row2col0')) {
-			points = 4;
-		} else if (squareElement == $('#row2col1')) {
-			points = 9;
-		} else if (squareElement == $('#row2col2')) {
-			points = 2;
-		};
-		return points;
-	}, //END getPoints
 
 
 // shows whether a player won or last its last game
@@ -190,13 +158,14 @@ const Player = Backbone.Model.extend({
 		} else {
 		this.status = status.toLowerCase();
 		}
-	} //END setStatus
+	}, //END setStatus
+
+	wabbitHearing: function() {
+		this.listenTo(this.currentGame, this)
+		console.log('kill da wabbit');
+	}
 
 });   //END Player 
-
-
-
-
 
 
 
